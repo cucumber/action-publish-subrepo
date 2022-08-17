@@ -3,6 +3,8 @@
 # action-publish-subrepo
 GitHub Action to publish a subdirectory of a repo to a read-only mirror.
 
+No matter what branch the action runs on, the `main` branch will be published to the mirror repo. Tags will be pushed too.
+
 The name of the target repo to mirror into is inferred from the repo where the action is running and the given `working-directory`.
 
 e.g. https://github.com/cucumber/messages => https://github.com/cucumber/messages-php
