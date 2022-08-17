@@ -10,7 +10,7 @@ runs:
   steps:
     - name: create new git repo in subfolder and push
       run: |
-        git init
+        git init -b main
         git push ${{ github.repositoryUrl }}-${{ inputs.working-directory }} main:main
       shell: bash
       working-directory: ${{ inputs.working-directory }}
