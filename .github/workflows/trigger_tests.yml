@@ -1,0 +1,15 @@
+name: Trigger tests
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.TOKEN }}
+          repository: github/action-publish-subrepo-test-monorepo
+          event-type: push
+      - run: echo "TODO: poll for success / failure of the triggered GH Action and pass/fail this job"
