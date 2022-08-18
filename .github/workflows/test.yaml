@@ -1,10 +1,6 @@
-name: Publish php subrepo/mirror
+name: Publish subrepo/mirror
 
-on:
-  repository_dispatch:
-    types: [push]
-  workflow_dispatch:
-  push:
+# designed to be run in the https://github.com/cucumber/action-publish-subrepo-test-monorepo/ repo
 
 jobs:
   publish-subrepo:
