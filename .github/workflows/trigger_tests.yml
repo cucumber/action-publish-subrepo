@@ -12,4 +12,5 @@ jobs:
           token: ${{ secrets.TOKEN }}
           repository: github/action-publish-subrepo-test-monorepo
           event-type: push
-      - run: echo "TODO: poll for success / failure of the triggered GH Action and pass/fail this job"
+      - run: |
+        echo "TODO: poll for success / failure of the triggered GH Action and pass/fail this job"
