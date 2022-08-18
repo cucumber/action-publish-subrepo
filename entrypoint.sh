@@ -4,6 +4,8 @@ set -e
 TARGET_REPO=${GITHUB_REPOSITORY}-${INPUT_WORKING_DIRECTORY}
 echo target repo:"$TARGET_REPO"
 
+git config --global --add safe.directory /github/workspace
+
 # Create the subtree split branch in pwd directory
 git subtree split --prefix="${INPUT_WORKING_DIRECTORY}" -b split
 
