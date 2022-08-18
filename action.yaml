@@ -7,11 +7,9 @@ inputs:
     default: "."
 runs:
   using: "composite"
-  if: github.ref_name == 'main'
-
   steps:
-    
     - name: create new git repo in subfolder and push
+      if: github.ref_name == 'main'
       run: |
         echo "$github.repositoryUrl"
         # git init -b main
