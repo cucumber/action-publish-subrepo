@@ -12,7 +12,7 @@ runs:
       shell: bash
       run: |
         BRANCH="$(git branch --show-current)"
-        if [[ "$BRANCH" != "main2" ]]; then
+        if [[ "$BRANCH" != "main" ]]; then
           echo 'Cannot publish subrepo on another branch than main';
           exit 1;
         fi
