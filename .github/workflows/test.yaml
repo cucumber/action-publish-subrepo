@@ -23,6 +23,7 @@ jobs:
       - uses: cucumber/action-publish-subrepo@main
         with:
           working_directory: "a-subfolder"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: check that the subrepo contains our update from step 2
         run: |
           url=https://api.github.com/repos/cucumber/action-publish-subrepo-test-monorepo-a-subfolder/contents/a-file
