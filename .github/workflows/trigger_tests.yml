@@ -16,3 +16,5 @@ jobs:
           repo=cucumber/action-publish-subrepo-test-monorepo
           id=$(gh run list --limit 1 --json "databaseId" --repo $repo | jq '.[0] .databaseId')
           gh run watch $id --exit-status --repo $repo
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
