@@ -13,6 +13,6 @@ jobs:
           repository: cucumber/action-publish-subrepo-test-monorepo
           event-type: push
       - run: |
-          $repo=cucumber/action-publish-subrepo-test-monorepo
+          repo=cucumber/action-publish-subrepo-test-monorepo
           id=$(gh run list --limit 1 --json "databaseId" --repo $repo | jq '.[0] .databaseId')
           gh run watch $id --exit-status --repo $repo
