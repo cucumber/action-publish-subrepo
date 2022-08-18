@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 TARGET_REPO=${GITHUB_REPOSITORY}-${INPUT_WORKING_DIRECTORY}
 echo target repo:"$TARGET_REPO"
