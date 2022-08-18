@@ -1,6 +1,6 @@
 #!/bin/sh
 
-TARGET_REPO=${GITHUB_REPOSITORY}-${INPUT_WORKING_DIRECTORY}`
+TARGET_REPO=${GITHUB_REPOSITORY}-${INPUT_WORKING_DIRECTORY}
 echo target repo:"$TARGET_REPO"
 
 # Create the subtree split branch in pwd directory
