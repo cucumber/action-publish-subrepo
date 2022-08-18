@@ -7,20 +7,14 @@ inputs:
     default: "."
 runs:
   using: "composite"
-  steps:
-    - name: make sure we are on main
-      shell: bash
-      run: |
-        BRANCH="$(git branch --show-current)"
-        if [[ "$BRANCH" != "main" ]]; then
-          echo 'Cannot publish subrepo on another branch than main';
-          exit 1;
-        fi
+  if: github.ref_name == 'main'
 
+  steps:
+    
     - name: create new git repo in subfolder and push
       run: |
-        git init -b main
-        # TODO: fix this:
+        echo "$github.repositoryUrl"
+        # git init -b main
         # git push ${{ github.repositoryUrl }}-${{ inputs.working-directory }} main:main
       shell: bash
       working-directory: ${{ inputs.working-directory }}
