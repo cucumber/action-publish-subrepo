@@ -7,14 +7,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: peter-evans/repository-dispatch@v2
+      - uses: aurelien-baudet/workflow-dispatch@v2
         with:
+          workflow: Publish subrepo
           token: ${{ secrets.TOKEN }}
-          repository: cucumber/action-publish-subrepo-test-monorepo
-          event-type: push
-      - run: |
-          repo=cucumber/action-publish-subrepo-test-monorepo
-          id=$(gh run list --limit 1 --json "databaseId" --repo $repo | jq '.[0] .databaseId')
-          gh run watch $id --exit-status --repo $repo
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
