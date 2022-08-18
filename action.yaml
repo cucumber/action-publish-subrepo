@@ -11,7 +11,7 @@ runs:
     - name: create new git repo in subfolder and push
       if: github.ref_name == 'main'
       run: |
-        echo "$github.repositoryUrl"
+        echo "git@github.com:$github.repository-$inputs.working-directory.git"
         # git init -b main
         # git push ${{ github.repositoryUrl }}-${{ inputs.working-directory }} main:main
       shell: bash
