@@ -1,6 +1,7 @@
 name: Publish subrepo/mirror
 
 # designed to be run in the https://github.com/cucumber/action-publish-subrepo-test-monorepo/ repo
+workflow_call:
 
 jobs:
   publish-subrepo:
