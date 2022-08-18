@@ -15,7 +15,7 @@ cd split
 git config --global user.email "gitbot@github.com"
 git config --global user.name "$GITHUB_ACTOR"
 git pull ../ split
-git remote add subrepo "git@github.com:${GITHUB_REPOSITORY}-${INPUT_WORKING_DIRECTORY}.git"
+git remote add subrepo "https://${INPUT_GITHUB_TOKEN}@github.com/${TARGET_REPO}.git"
 git pull subrepo main --allow-unrelated-histories
 git lfs pull subrepo main
 #push to subtree repo
