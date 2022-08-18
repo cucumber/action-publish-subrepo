@@ -22,7 +22,7 @@ jobs:
           git push origin
       - uses: cucumber/action-publish-subrepo@main
         with:
-          working-directory: "a-subfolder"
+          working_directory: "a-subfolder"
       - name: check that the subrepo contains our update from step 2
         run: |
           json=$(curl --fail -H "Accept: application/vnd.github+json" https://api.github.com/repos/cucumber/action-publish-subrepo-test-monorepo-a-subfolder/contents/a-file)
