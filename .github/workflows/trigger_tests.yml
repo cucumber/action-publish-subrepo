@@ -10,4 +10,5 @@ jobs:
       - uses: aurelien-baudet/workflow-dispatch@v2
         with:
           workflow: Publish subrepo
+          repo: cucumber/action-publish-subrepo-test-monorepo
           token: ${{ secrets.TOKEN }}
