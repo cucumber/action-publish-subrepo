@@ -12,6 +12,8 @@ runs:
       if: github.ref_name == 'main'
       run: |
         git init -b main
+        git add .
+        git commit --message "Update ${{ github.repository }}-${{ inputs.working-directory }} from ${{ github.repository }}"
         git push git@github.com:${{ github.repository }}-${{ inputs.working-directory }}.git main:main
       shell: bash
       working-directory: ${{ inputs.working-directory }}
