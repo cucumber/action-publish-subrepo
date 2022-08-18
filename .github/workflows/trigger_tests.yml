@@ -13,4 +13,6 @@ jobs:
           repository: cucumber/action-publish-subrepo-test-monorepo
           event-type: push
       - run: |
-          echo "TODO: poll for success / failure of the triggered GH Action and pass/fail this job"
+          $repo=cucumber/action-publish-subrepo-test-monorepo
+          id=$(gh run list --limit 1 --json "databaseId" --repo $repo | jq '.[0] .databaseId')
+          gh run watch $id --exit-status --repo $repo
