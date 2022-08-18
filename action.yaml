@@ -6,14 +6,5 @@ inputs:
     required: true
     default: "."
 runs:
-  using: "composite"
-  steps:
-    - name: create new git repo in subfolder and push
-      if: github.ref_name == 'main'
-      run: |
-        git init -b main
-        git add .
-        git commit --message "Update ${{ github.repository }}-${{ inputs.working-directory }} from ${{ github.repository }}"
-        git push git@github.com:${{ github.repository }}-${{ inputs.working-directory }}.git main:main
-      shell: bash
-      working-directory: ${{ inputs.working-directory }}
+  using: "docker"
+  image: "Dockerfile"
