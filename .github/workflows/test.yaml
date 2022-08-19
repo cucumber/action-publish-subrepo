@@ -23,6 +23,8 @@ jobs:
           git add a-subfolder/a-file
           git commit -m "Update monorepo file in GitHub Actions run number ${{ github.run_number }}"
           git push origin
+          git tag v${{ github.run_number }}
+          git push --tags
       - uses: cucumber/action-publish-subrepo@main
         with:
           working-directory: "a-subfolder"
@@ -34,6 +36,16 @@ jobs:
           body=$(echo "$json" | jq --raw-output '.content' | base64 -d)
           if [[ "$body" != "${{ github.run_number }}" ]]; then
             echo "expected $body to equal ${{ github.run_number }}"
+            exit 1
+          fi
+      - name: check that the subrepo contains the tag
+        run: |
+          url=https://api.github.com/repos/cucumber/action-publish-subrepo-test-monorepo-a-subfolder/tags
+          json=$(curl --fail -H "Accept: application/vnd.github+json" $url)
+          tags=($(echo "$json" | jq --raw-output '.[] .name'))
+          expected_tag=v${{ github.run_number }}
+          if [[ printf '%s\0' "${tags[@]}" | grep -F -x -z -- "$expected_tag" ]]; then
+            echo "expected tags $tags to include $expected_tag"
             exit 1
           fi
   publish-to-missing-subrepo:
