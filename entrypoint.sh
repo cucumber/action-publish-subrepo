@@ -62,12 +62,11 @@ else
 	git checkout main
 fi
 
-# Pull from subrepo
-git remote add subrepo "$subrepo_url"
-git config pull.rebase true
-git pull subrepo main --allow-unrelated-histories || echo "subrepo does not appear to have a main branch to pull from yet"
-git lfs pull subrepo main
+# tag the commit on main
+if [ -n "$tag" ]; then
+	git tag "$tag" main
+fi
 
 # Push the main branch and any tags referencing its commits
-git tag "$tag" main
+git remote add subrepo "$subrepo_url"
 git push subrepo main "$tag" --force
