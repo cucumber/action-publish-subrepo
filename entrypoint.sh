@@ -17,8 +17,8 @@ git config --global user.name "$GITHUB_ACTOR"
 git pull ../ split
 subrepo_url="https://${INPUT_GITHUB_TOKEN}@github.com/${TARGET_REPO}.git"
 echo "Testing connection to subrepo $subrepo_url"
-git ls-remote subrepo_url
-git remote add subrepo $subrepo_url
+git ls-remote "$subrepo_url"
+git remote add subrepo "$subrepo_url"
 git pull subrepo main --allow-unrelated-histories
 git lfs pull subrepo main
 #push to subtree repo
