@@ -4,9 +4,6 @@ set -e
 working_directory=$1
 token=$2
 
-# test token
-GH_TOKEN=$token gh auth login -h github.com
-
 target_repo="$GITHUB_REPOSITORY-$working_directory"
 echo "Target repo: $target_repo"
 
@@ -23,7 +20,7 @@ git config --global user.email "gitbot@github.com"
 git config --global user.name "$GITHUB_ACTOR"
 git pull ../ split
 
-subrepo_url="https://${token}@github.com/${target_repo}.git"
+subrepo_url="https://$token@github.com/$target_repo.git"
 
 echo "Testing connection to subrepo $subrepo_url"
 git ls-remote "$subrepo_url"
