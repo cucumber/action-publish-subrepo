@@ -43,7 +43,7 @@ else
 fi
 
 git remote add subrepo "$subrepo_url"
-git config pull.rebase false
+git config pull.rebase true
 git pull subrepo main --allow-unrelated-histories || echo "subrepo does not appear to have a main branch to pull from yet"
 git lfs pull subrepo main
 #push to subtree repo
