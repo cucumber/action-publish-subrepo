@@ -7,7 +7,8 @@ WORKDIR /app
 RUN apk add git \
     openssh \
     git-subtree \
-    git-lfs
+    git-lfs \
+    github-cli
 
 ADD entrypoint.sh ./
 

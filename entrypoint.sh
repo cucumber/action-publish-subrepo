@@ -4,6 +4,9 @@ set -e
 working_directory=$1
 token=$2
 
+# test token
+GH_TOKEN=$token gh auth login -h github.com
+
 target_repo="$GITHUB_REPOSITORY-$working_directory"
 echo "Target repo: $target_repo"
 
