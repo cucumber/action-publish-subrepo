@@ -8,7 +8,7 @@ on:
         required: true
 
 jobs:
-  publish-subrepo:
+  publish-to-existing-subrepo:
     name: Publish to an existing subrepo
     runs-on: ubuntu-latest
     steps:
@@ -36,19 +36,19 @@ jobs:
             echo "expected $body to equal ${{ github.run_number }}"
             exit 1
           fi
-  attempt-publish-to-non-existent-repo:
+  publish-to-missing-subrepo:
     name: Attempt to publish to a repo that doesn't exist yet
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: delete repo if it exists
+      - name: delete subrepo if it exists
         run: |
           if [[ $(gh repo list cucumber | grep cucumber/action-publish-subrepo-test-monorepo-another-subfolder) ]]; then
             gh repo delete cucumber/action-publish-subrepo-test-monorepo-another-subfolder --confirm
           fi
         env:
           GH_TOKEN: ${{ secrets.PUSH_TOKEN }}
-      - name: Create another subfolder (with no existing matching subrepo)
+      - name: Create subfolder for missing subrepo
         run: |
           mkdir another-subfolder
           touch another-subfolder/another-file
@@ -60,8 +60,3 @@ jobs:
         with:
           working-directory: 'another-subfolder'
           github-token: ${{ secrets.PUSH_TOKEN }}
-        id: run-action
-        continue-on-error: true
-      - name: expect failure
-        if: steps.run-action.outcome == 'success'
-        run: echo "Expected to fail!" && exit 1
