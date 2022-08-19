@@ -37,10 +37,17 @@ jobs:
             exit 1
           fi
   attempt-publish-to-non-existent-repo:
-    name: Attempt to publish to a repo that doesn't exist 
+    name: Attempt to publish to a repo that doesn't exist yet
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: delete repo if it exists
+        run: |
+          if [[ gh repo list | grep cucumber/action-publish-subrepo-test-monorepo-another-subfolder ]]; then
+            gh repo delete cucumber/action-publish-subrepo-test-monorepo-another-subfolder
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.PUSH_TOKEN }}
       - name: Create another subfolder (with no existing matching subrepo)
         run: |
           mkdir another-subfolder
