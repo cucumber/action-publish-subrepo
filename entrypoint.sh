@@ -19,6 +19,11 @@ echo "Target subrepo: $subrepo_name"
 # Avoid 'dubious ownership' warning from git
 git config --global --add safe.directory /github/workspace
 
+# Avoid shallow clone
+if [ "$(git rev-parse --is-shallow-repository)" = 'true' ]; then
+	git fetch --unshallow
+fi
+
 # debug
 git tag --list
 git show-ref
