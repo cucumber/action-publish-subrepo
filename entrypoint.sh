@@ -16,9 +16,18 @@ cd split
 git config --global user.email "gitbot@github.com"
 git config --global user.name "$GITHUB_ACTOR"
 git pull ../ split
+
 subrepo_url="https://${INPUT_GITHUB_TOKEN}@github.com/${TARGET_REPO}.git"
+
 echo "Testing connection to subrepo $subrepo_url"
 git ls-remote "$subrepo_url"
+# pull is OK, what about push?
+git checkout --orphan test-push
+git reset --hard
+git commit --allow-empty --message "test push"
+git push "$subrepo_url" refs/test/push || echo "FATAL: unable to push to remote repo $subrepo_url\nCheck token permissions."
+git push "$subrepo_url" :refs/test/push
+
 git remote add subrepo "$subrepo_url"
 git pull subrepo main --allow-unrelated-histories || echo "subrepo does not appear to have a main branch to pull from yet"
 git lfs pull subrepo main
