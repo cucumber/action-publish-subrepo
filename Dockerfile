@@ -9,7 +9,8 @@ RUN apk add git \
     git-subtree \
     git-lfs \
     github-cli \
-    curl
+    curl \
+    bash
 
 ADD entrypoint.sh ./
 

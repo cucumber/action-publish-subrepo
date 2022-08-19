@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 # Read args
@@ -19,14 +19,12 @@ echo "Target subrepo: $subrepo_name"
 # Avoid 'dubious ownership' warning from git
 git config --global --add safe.directory /github/workspace
 
-# Avoid shallow clone
-if [ "$(git rev-parse --is-shallow-repository)" = 'true' ]; then
-	git fetch --unshallow
-fi
-
 # debug
 git tag --list
 git show-ref
+
+# Get any tags pointing to current commit
+tags="($(git tag --points-at HEAD))"
 
 # Create the subtree split branch in pwd directory
 git subtree split --prefix="$working_directory" -b split
@@ -35,7 +33,7 @@ git init split
 cd split
 git config --global user.email "gitbot@github.com"
 git config --global user.name "$GITHUB_ACTOR"
-git pull ../ split --tags
+git pull ../ split "$tags"
 
 # Create subrepo if missing, or check access for token if it exists
 subrepo_url="https://$token@github.com/$subrepo_name"
@@ -68,5 +66,4 @@ git pull subrepo main --allow-unrelated-histories || echo "subrepo does not appe
 git lfs pull subrepo main
 
 # Push the main branch and any tags referencing its commits
-git push subrepo main --force
-git push subrepo --tags
+git push subrepo main "$tags" --force
