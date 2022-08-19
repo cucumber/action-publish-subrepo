@@ -15,7 +15,8 @@ e.g.
 
 ## Inputs
 
-* `working-directory` - subfolder path within your repo that you want to mirror 
+* `working-directory` - subfolder path within your repo that you want to mirror
+* `github-token` - a [PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) with sufficient privileges to push to the subrepo
 
 ## Example
 
@@ -37,5 +38,5 @@ jobs:
       - uses: cucumber/action-publish-subrepo@v1.0.0
         with:
           working-directory: "php"
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PUSH_TOKEN }}
 ```
