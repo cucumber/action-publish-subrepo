@@ -9,8 +9,8 @@ on:
 
 jobs:
   publish-subrepo:
+    name: Publish to a subrepo that already exists
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - name: update the 'a-subfolder' folder with something unique
@@ -36,3 +36,19 @@ jobs:
             echo "expected $body to equal ${{ github.run_number }}"
             exit 1
           fi
+  attempt-publish-to-non-existent-repo:
+    name: Attempt to publish to a repo that doesn't exist 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create another subfolder (with no existing matching subrepo)
+        run: |
+          mkdir another-subfolder
+          touch another-subfolder/another-file
+          git add another-subfolder
+          git commit --message "Add another-subfolder"
+      - uses: cucumber/action-publish-subrepo@main
+        with:
+          working-directory: 'another-subfolder'
+          github-token: ${{ secrets.PUSH_TOKEN }}
+
