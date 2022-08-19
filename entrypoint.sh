@@ -49,5 +49,5 @@ git config pull.rebase true
 git pull subrepo main --allow-unrelated-histories || echo "subrepo does not appear to have a main branch to pull from yet"
 git lfs pull subrepo main
 
-# Push all version tags, and the main branch
-git push subrepo +refs/tags/v* +refs/heads/main
+# Push the main branch and any tags referencing its commits
+git push subrepo +refs/heads/main --follow-tags

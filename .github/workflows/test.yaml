@@ -45,7 +45,7 @@ jobs:
           tags=($(echo "$json" | jq --raw-output '.[] .name'))
           expected_tag="v${{ github.run_number }}"
           if [[ ! $(printf '%s\0' "${tags[@]}" | grep -F -x -z -- "$expected_tag") ]]; then
-            echo "expected tags $tags to include $expected_tag"
+            echo "expected tags to include $expected_tag but was: $tags"
             exit 1
           fi
   publish-to-missing-subrepo:
