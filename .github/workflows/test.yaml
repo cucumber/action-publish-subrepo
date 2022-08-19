@@ -46,6 +46,8 @@ jobs:
           mkdir another-subfolder
           touch another-subfolder/another-file
           git add another-subfolder
+          git config user.email "gitbot@github.com"
+          git config user.name "$GITHUB_ACTOR"
           git commit --message "Add another-subfolder"
       - uses: cucumber/action-publish-subrepo@main
         with:
