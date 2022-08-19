@@ -42,6 +42,8 @@ else
 	# pull is OK, what about push?
 	git checkout --orphan test-push
 	git reset --hard
+	git config user.email "gitbot@github.com"
+	git config user.name "$GITHUB_ACTOR"
 	git commit --allow-empty --message "test push"
 	git push "$subrepo_url" test-push:refs/test/push || (echo -e "Unable to push to remote repo $subrepo_url\nCheck your token's permissions." && exit 1)
 	git push "$subrepo_url" :refs/test/push
