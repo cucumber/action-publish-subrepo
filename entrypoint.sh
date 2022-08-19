@@ -28,8 +28,7 @@ tag="$(git tag --points-at HEAD)"
 
 # Create the subtree split branch in pwd directory
 git subtree split --prefix="$working_directory" -b split
-git config --global init.defaultBranch main
-git init split
+git init split -b main
 cd split
 git config --global user.email "gitbot@github.com"
 git config --global user.name "$GITHUB_ACTOR"
