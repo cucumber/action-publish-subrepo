@@ -27,6 +27,16 @@ git show-ref
 git config --global user.email "gitbot@github.com"
 git config --global user.name "$GITHUB_ACTOR"
 
+# Get any tag pointing to current commit
+tag="$(git tag --points-at "$GITHUB_REF")"
+
+# Create the subtree split branch and pull into a new repo
+git checkout "$GITHUB_REF"
+git subtree split --prefix="$working_directory" -b split
+git init split -b main
+cd split
+git pull ../ split:main
+
 # Create subrepo if missing, or check access for token if it exists
 subrepo_url="https://$token@github.com/$subrepo_name"
 if ! curl --fail "$subrepo_url" > /dev/null; then
@@ -49,17 +59,8 @@ else
 	git commit --allow-empty --message "test push"
 	git push "$subrepo_url" test-push:refs/test/push || (echo -e "Unable to push to remote repo $subrepo_url\nCheck your token's permissions." && exit 1)
 	git push "$subrepo_url" :refs/test/push
+	git checkout main
 fi
-
-# Get any tag pointing to current commit
-tag="$(git tag --points-at "$GITHUB_REF")"
-
-# Create the subtree split branch in pwd directory
-git checkout "$GITHUB_REF"
-git subtree split --prefix="$working_directory" -b split
-git init split -b main
-cd split
-git pull ../ split
 
 # Pull from subrepo
 git remote add subrepo "$subrepo_url"
