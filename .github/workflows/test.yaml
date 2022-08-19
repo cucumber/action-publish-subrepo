@@ -44,7 +44,7 @@ jobs:
           json=$(curl --fail -H "Accept: application/vnd.github+json" $url)
           tags=($(echo "$json" | jq --raw-output '.[] .name'))
           expected_tag="v${{ github.run_number }}"
-          if [[ $(printf '%s\0' "${tags[@]}" | grep -F -x -z -- "$expected_tag") ]]; then
+          if [[ ! $(printf '%s\0' "${tags[@]}" | grep -F -x -z -- "$expected_tag") ]]; then
             echo "expected tags $tags to include $expected_tag"
             exit 1
           fi
