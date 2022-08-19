@@ -71,12 +71,12 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git commit --message "Add another-subfolder"
       - uses: cucumber/action-publish-subrepo@main
+        id: run-action
+        continue-on-error: true
         with:
           working-directory: 'another-subfolder'
           github-token: ${{ secrets.PUSH_TOKEN }}
           create-subrepo-if-missing: false
-          id: run-action
-          continue-on-error: true
       - name: expect failure
         if: steps.run-action.outcome == 'success'
         run: echo "Expected to fail!" && exit 1
