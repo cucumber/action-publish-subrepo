@@ -19,6 +19,9 @@ echo "Target subrepo: $subrepo_name"
 # Avoid 'dubious ownership' warning from git
 git config --global --add safe.directory /github/workspace
 
+# Make sure we have all tags, not just the last one
+git fetch --tags
+
 # debug
 git tag --list
 git show-ref
@@ -30,7 +33,7 @@ git init split
 cd split
 git config --global user.email "gitbot@github.com"
 git config --global user.name "$GITHUB_ACTOR"
-git pull ../ split
+git pull ../ split --tags
 
 # Create subrepo if missing, or check access for token if it exists
 subrepo_url="https://$token@github.com/$subrepo_name"
