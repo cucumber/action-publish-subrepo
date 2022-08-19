@@ -68,7 +68,7 @@ if [ -n "$tag" ]; then
 fi
 
 # Pull older commits from remote
-git pull "$subrepo_url" main --no-rebase --allow-unrelated-histories
+git pull "$subrepo_url" main --no-rebase --allow-unrelated-histories -X ours
 
 # Push the main branch and any tags referencing its commits
 git push "$subrepo_url" main "$tag" --force
