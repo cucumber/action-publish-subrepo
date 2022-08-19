@@ -44,7 +44,7 @@ jobs:
       - name: delete repo if it exists
         run: |
           if [[ $(gh repo list cucumber | grep cucumber/action-publish-subrepo-test-monorepo-another-subfolder) ]]; then
-            gh repo delete cucumber/action-publish-subrepo-test-monorepo-another-subfolder
+            gh repo delete cucumber/action-publish-subrepo-test-monorepo-another-subfolder --confirm
           fi
         env:
           GH_TOKEN: ${{ secrets.PUSH_TOKEN }}
