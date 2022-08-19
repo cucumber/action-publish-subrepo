@@ -4,6 +4,12 @@ set -e
 working_directory=$1
 token=$2
 
+if [ -z "$token" ]
+then
+	echo "Please set the github-token input"
+	exit 1
+fi
+
 target_repo="$GITHUB_REPOSITORY-$working_directory"
 echo "Target repo: $target_repo"
 
