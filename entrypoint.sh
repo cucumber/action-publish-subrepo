@@ -27,15 +27,20 @@ git config --global user.name "$GITHUB_ACTOR"
 git pull ../ split
 
 subrepo_url="https://$token@github.com/$target_repo.git"
-
-echo "Testing connection to subrepo $subrepo_url"
-git ls-remote "$subrepo_url"
-# pull is OK, what about push?
-git checkout --orphan test-push
-git reset --hard
-git commit --allow-empty --message "test push"
-git push "$subrepo_url" test-push:refs/test/push || (echo -e "Unable to push to remote repo $subrepo_url\nCheck your token's permissions." && exit 1)
-git push "$subrepo_url" :refs/test/push
+if ! curl "$subrepo_url"; then
+	# TODO: consider using --template here to have a template for read-only subrepos
+	# TODO: set description
+	gh repo create "$target_repo" --public --license MIT
+else
+	echo "Testing connection to subrepo $subrepo_url"
+	git ls-remote "$subrepo_url"
+	# pull is OK, what about push?
+	git checkout --orphan test-push
+	git reset --hard
+	git commit --allow-empty --message "test push"
+	git push "$subrepo_url" test-push:refs/test/push || (echo -e "Unable to push to remote repo $subrepo_url\nCheck your token's permissions." && exit 1)
+	git push "$subrepo_url" :refs/test/push
+fi
 
 git remote add subrepo "$subrepo_url"
 git pull subrepo main --allow-unrelated-histories || echo "subrepo does not appear to have a main branch to pull from yet"
