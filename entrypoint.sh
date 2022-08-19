@@ -29,9 +29,8 @@ git pull ../ split
 subrepo_url="https://$token@github.com/$target_repo"
 if ! curl --fail "$subrepo_url"; then
 	# TODO: consider using --template here to have a template for read-only subrepos
-	# TODO: set description
 	export GH_TOKEN="$token"
-	gh repo create "$target_repo" --public --license MIT
+	gh repo create "$target_repo" --public --description "READ-ONLY mirror of $GITHUB_REPOSITORY $working_directory folder"
 else
 	echo "Testing connection to subrepo $subrepo_url"
 	git ls-remote "$subrepo_url"
