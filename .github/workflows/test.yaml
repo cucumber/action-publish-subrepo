@@ -43,7 +43,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: delete repo if it exists
         run: |
-          if [[ gh repo list | grep cucumber/action-publish-subrepo-test-monorepo-another-subfolder ]]; then
+          if [[ $(gh repo list cucumber | grep cucumber/action-publish-subrepo-test-monorepo-another-subfolder) ]]; then
             gh repo delete cucumber/action-publish-subrepo-test-monorepo-another-subfolder
           fi
         env:
