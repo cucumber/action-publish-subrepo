@@ -4,6 +4,7 @@ set -e
 TARGET_REPO=${GITHUB_REPOSITORY}-${INPUT_WORKING_DIRECTORY}
 echo target repo:"$TARGET_REPO"
 
+# Avoid warning from git
 git config --global --add safe.directory /github/workspace
 
 # Create the subtree split branch in pwd directory
@@ -19,7 +20,7 @@ subrepo_url="https://${INPUT_GITHUB_TOKEN}@github.com/${TARGET_REPO}.git"
 echo "Testing connection to subrepo $subrepo_url"
 git ls-remote "$subrepo_url"
 git remote add subrepo "$subrepo_url"
-git pull subrepo main --allow-unrelated-histories
+git pull subrepo main --allow-unrelated-histories || echo "subrepo does not appear to have a main branch to pull from yet"
 git lfs pull subrepo main
 #push to subtree repo
 git push subrepo main
