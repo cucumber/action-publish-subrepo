@@ -1,14 +1,17 @@
 #!/bin/sh
 set -e
 
-TARGET_REPO=${GITHUB_REPOSITORY}-${INPUT_WORKING-DIRECTORY}
-echo target repo:"$TARGET_REPO"
+working_directory=$1
+token=$2
+
+target_repo="$GITHUB_REPOSITORY-$working_directory"
+echo "Target repo: $target_repo"
 
 # Avoid warning from git
 git config --global --add safe.directory /github/workspace
 
 # Create the subtree split branch in pwd directory
-git subtree split --prefix="${INPUT_WORKING-DIRECTORY}" -b split
+git subtree split --prefix="$working_directory" -b split
 
 git config --global init.defaultBranch main
 git init split
@@ -17,7 +20,7 @@ git config --global user.email "gitbot@github.com"
 git config --global user.name "$GITHUB_ACTOR"
 git pull ../ split
 
-subrepo_url="https://${INPUT_GITHUB-TOKEN}@github.com/${TARGET_REPO}.git"
+subrepo_url="https://${token}@github.com/${target_repo}.git"
 
 echo "Testing connection to subrepo $subrepo_url"
 git ls-remote "$subrepo_url"
