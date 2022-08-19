@@ -24,7 +24,7 @@ git tag --list
 git show-ref
 
 # Get any tags pointing to current commit
-tags="($(git tag --points-at HEAD))"
+tag="$(git tag --points-at HEAD)"
 
 # Create the subtree split branch in pwd directory
 git subtree split --prefix="$working_directory" -b split
@@ -33,7 +33,7 @@ git init split
 cd split
 git config --global user.email "gitbot@github.com"
 git config --global user.name "$GITHUB_ACTOR"
-git pull ../ split "$tags"
+git pull ../ split
 
 # Create subrepo if missing, or check access for token if it exists
 subrepo_url="https://$token@github.com/$subrepo_name"
@@ -66,4 +66,5 @@ git pull subrepo main --allow-unrelated-histories || echo "subrepo does not appe
 git lfs pull subrepo main
 
 # Push the main branch and any tags referencing its commits
-git push subrepo main "$tags" --force
+git tag "$tag" main
+git push subrepo main "$tag" --force
