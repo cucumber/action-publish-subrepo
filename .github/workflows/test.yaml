@@ -43,8 +43,8 @@ jobs:
           url=https://api.github.com/repos/cucumber/action-publish-subrepo-test-monorepo-a-subfolder/tags
           json=$(curl --fail -H "Accept: application/vnd.github+json" $url)
           tags=($(echo "$json" | jq --raw-output '.[] .name'))
-          expected_tag=v${{ github.run_number }}
-          if [[ printf '%s\0' "${tags[@]}" | grep -F -x -z -- "$expected_tag" ]]; then
+          expected_tag="v${{ github.run_number }}"
+          if [[ $(printf '%s\0' "${tags[@]}" | grep -F -x -z -- "$expected_tag") ]]; then
             echo "expected tags $tags to include $expected_tag"
             exit 1
           fi
