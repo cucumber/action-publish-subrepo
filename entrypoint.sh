@@ -30,6 +30,7 @@ subrepo_url="https://$token@github.com/$target_repo.git"
 if ! curl "$subrepo_url"; then
 	# TODO: consider using --template here to have a template for read-only subrepos
 	# TODO: set description
+	GH_TOKEN=$token gh auth login -h github.com
 	gh repo create "$target_repo" --public --license MIT
 else
 	echo "Testing connection to subrepo $subrepo_url"
