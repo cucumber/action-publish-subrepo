@@ -74,4 +74,9 @@ jobs:
         with:
           working-directory: 'another-subfolder'
           github-token: ${{ secrets.PUSH_TOKEN }}
-          create-subrepo-if-missing: true
+          create-subrepo-if-missing: false
+          id: run-action
+          continue-on-error: true
+      - name: expect failure
+        if: steps.run-action.outcome == 'success'
+        run: echo "Expected to fail!" && exit 1
