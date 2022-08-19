@@ -59,4 +59,5 @@ git pull subrepo main --allow-unrelated-histories || echo "subrepo does not appe
 git lfs pull subrepo main
 
 # Push the main branch and any tags referencing its commits
-git push subrepo +refs/heads/main --follow-tags
+git push subrepo main --force
+git push subrepo --tags
