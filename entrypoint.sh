@@ -23,16 +23,9 @@ git config --global --add safe.directory /github/workspace
 git tag --list
 git show-ref
 
-# Get any tags pointing to current commit
-tag="$(git tag --points-at HEAD)"
-
-# Create the subtree split branch in pwd directory
-git subtree split --prefix="$working_directory" -b split
-git init split -b main
-cd split
+# Set up git author
 git config --global user.email "gitbot@github.com"
 git config --global user.name "$GITHUB_ACTOR"
-git pull ../ split
 
 # Create subrepo if missing, or check access for token if it exists
 subrepo_url="https://$token@github.com/$subrepo_name"
@@ -57,6 +50,16 @@ else
 	git push "$subrepo_url" test-push:refs/test/push || (echo -e "Unable to push to remote repo $subrepo_url\nCheck your token's permissions." && exit 1)
 	git push "$subrepo_url" :refs/test/push
 fi
+
+# Get any tag pointing to current commit
+tag="$(git tag --points-at "$GITHUB_REF")"
+
+# Create the subtree split branch in pwd directory
+git checkout "$GITHUB_REF"
+git subtree split --prefix="$working_directory" -b split
+git init split -b main
+cd split
+git pull ../ split
 
 # Pull from subrepo
 git remote add subrepo "$subrepo_url"
