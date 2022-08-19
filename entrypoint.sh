@@ -13,6 +13,10 @@ then
 	exit 1
 fi
 
+# debug
+git tag --list
+git show-ref
+
 subrepo_name="$GITHUB_REPOSITORY-$working_directory"
 echo "Target subrepo: $subrepo_name"
 
