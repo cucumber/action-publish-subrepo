@@ -1,8 +1,10 @@
 #!/bin/sh
 set -e
 
+# Read args
 working_directory=$1
 token=$2
+create_subrepo_if_missing=$3
 
 # Check git token is set
 if [ -z "$token" ]
@@ -11,8 +13,8 @@ then
 	exit 1
 fi
 
-target_repo="$GITHUB_REPOSITORY-$working_directory"
-echo "Target subrepo: $target_repo"
+subrepo_name="$GITHUB_REPOSITORY-$working_directory"
+echo "Target subrepo: $subrepo_name"
 
 # Avoid warning from git
 git config --global --add safe.directory /github/workspace
@@ -27,11 +29,18 @@ git config --global user.name "$GITHUB_ACTOR"
 git pull ../ split
 
 # Create subrepo if missing, or check access for token if it exists
-subrepo_url="https://$token@github.com/$target_repo"
+subrepo_url="https://$token@github.com/$subrepo_name"
 if ! curl --fail "$subrepo_url" > /dev/null; then
-	# TODO: consider using --template here to have a template for read-only subrepos
-	export GH_TOKEN="$token"
-	gh repo create "$target_repo" --public --description "READ-ONLY mirror of $GITHUB_REPOSITORY $working_directory folder"
+	if [ "$create_subrepo_if_missing" = 'true' ]; then
+		# TODO: consider using --template here to have a template for read-only subrepos
+		export GH_TOKEN="$token"
+		gh repo create "$subrepo_name" --public --description "READ-ONLY mirror of $GITHUB_REPOSITORY $working_directory folder"
+	else
+		echo "Subrepo $subrepo_name does not exist! You can use this command to create it:"
+		echo
+		echo "gh repo create $subrepo_name --public --description 'READ-ONLY mirror of $GITHUB_REPOSITORY $working_directory folder'"
+		exit 1
+	fi
 else
 	echo "Testing connection to subrepo $subrepo_url"
 	git ls-remote "$subrepo_url"

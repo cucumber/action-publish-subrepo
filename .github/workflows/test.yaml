@@ -29,6 +29,7 @@ jobs:
         with:
           working-directory: "a-subfolder"
           github-token: ${{ secrets.PUSH_TOKEN }}
+          create-subrepo-if-missing: false
       - name: check that the subrepo contains our update from step 2
         run: |
           url=https://api.github.com/repos/cucumber/action-publish-subrepo-test-monorepo-a-subfolder/contents/a-file
@@ -48,6 +49,7 @@ jobs:
             echo "expected tags to include $expected_tag but was: $tags"
             exit 1
           fi
+
   publish-to-missing-subrepo:
     name: Attempt to publish to a repo that doesn't exist yet
     runs-on: ubuntu-latest
@@ -72,3 +74,4 @@ jobs:
         with:
           working-directory: 'another-subfolder'
           github-token: ${{ secrets.PUSH_TOKEN }}
+          create-subrepo-if-missing: true

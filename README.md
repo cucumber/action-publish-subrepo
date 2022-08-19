@@ -19,6 +19,7 @@ If the mirror repo does not already exist, it will be created.
 
 * `working-directory` - subfolder path within your repo that you want to mirror
 * `github-token` - a [PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) with sufficient privileges to create and push to the subrepo
+* `create-subrepo-if-missing` (optional, default: true) - whether or not to create the subrepo if it doesn't exist yet
 
 ## Example
 
