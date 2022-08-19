@@ -25,7 +25,7 @@ git ls-remote "$subrepo_url"
 git checkout --orphan test-push
 git reset --hard
 git commit --allow-empty --message "test push"
-git push "$subrepo_url" refs/test/push || echo "FATAL: unable to push to remote repo $subrepo_url\nCheck token permissions."
+git push "$subrepo_url" test-push:refs/test/push || (echo -e "Unable to push to remote repo $subrepo_url\nCheck your token's permissions." && exit 1)
 git push "$subrepo_url" :refs/test/push
 
 git remote add subrepo "$subrepo_url"
