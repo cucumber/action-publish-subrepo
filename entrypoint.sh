@@ -19,9 +19,26 @@ echo "Target subrepo: $subrepo_name"
 # Avoid 'dubious ownership' warning from git
 git config --global --add safe.directory /github/workspace
 
+# Avoid shallow clone
+if [ "$(git rev-parse --is-shallow-repository)" = 'true' ]; then
+	git fetch --unshallow
+fi
+
 # debug
 git tag --list
 git show-ref
+
+# Get any tags pointing to current commit
+tags="($(git tag --points-at HEAD))"
+
+# Create the subtree split branch in pwd directory
+git subtree split --prefix="$working_directory" -b split
+git config --global init.defaultBranch main
+git init split
+cd split
+git config --global user.email "gitbot@github.com"
+git config --global user.name "$GITHUB_ACTOR"
+git pull ../ split "$tags"
 
 # Create subrepo if missing, or check access for token if it exists
 subrepo_url="https://$token@github.com/$subrepo_name"
@@ -42,27 +59,16 @@ else
 	# pull is OK, what about push?
 	git checkout --orphan test-push
 	git reset --hard
-	git config user.email "gitbot@github.com"
-	git config user.name "$GITHUB_ACTOR"
 	git commit --allow-empty --message "test push"
 	git push "$subrepo_url" test-push:refs/test/push || (echo -e "Unable to push to remote repo $subrepo_url\nCheck your token's permissions." && exit 1)
 	git push "$subrepo_url" :refs/test/push
-	git checkout "$GITHUB_REF"
 fi
 
-# Create the subtree repo
-git clone "$subrepo_url" /tmp/split --bare
-git subtree split --prefix="$working_directory" --squash -b split
-git push /tmp/split split:main
+# Pull from subrepo
+git remote add subrepo "$subrepo_url"
+git config pull.rebase true
+git pull subrepo main --allow-unrelated-histories || echo "subrepo does not appear to have a main branch to pull from yet"
+git lfs pull subrepo main
 
-# Tag the commit
-tag=$(git tag --points-at HEAD)
-if [[ -n $tag ]]; then
-	pushd /tmp/split
-	git tag "$tag"
-	popd
-fi
-
-# Push the main branch and any tag
-cd /tmp/split
-git push "$subrepo_url" main "$tag" --force
+# Push the main branch and any tags referencing its commits
+git push subrepo main "$tags" --force
