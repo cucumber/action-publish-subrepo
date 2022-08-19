@@ -4,6 +4,7 @@ set -e
 working_directory=$1
 token=$2
 
+# Check git token is set
 if [ -z "$token" ]
 then
 	echo "Please set the github-token input"
@@ -11,14 +12,13 @@ then
 fi
 
 target_repo="$GITHUB_REPOSITORY-$working_directory"
-echo "Target repo: $target_repo"
+echo "Target subrepo: $target_repo"
 
 # Avoid warning from git
 git config --global --add safe.directory /github/workspace
 
 # Create the subtree split branch in pwd directory
 git subtree split --prefix="$working_directory" -b split
-
 git config --global init.defaultBranch main
 git init split
 cd split
@@ -26,6 +26,7 @@ git config --global user.email "gitbot@github.com"
 git config --global user.name "$GITHUB_ACTOR"
 git pull ../ split
 
+# Create subrepo if missing, or check access for token if it exists
 subrepo_url="https://$token@github.com/$target_repo"
 if ! curl --fail "$subrepo_url" > /dev/null; then
 	# TODO: consider using --template here to have a template for read-only subrepos
@@ -42,10 +43,11 @@ else
 	git push "$subrepo_url" :refs/test/push
 fi
 
+# Pull from subrepo
 git remote add subrepo "$subrepo_url"
 git config pull.rebase true
 git pull subrepo main --allow-unrelated-histories || echo "subrepo does not appear to have a main branch to pull from yet"
 git lfs pull subrepo main
-#push to subtree repo
-git push subrepo main
-echo sync success
+
+# Push all version tags, and the main branch
+git push subrepo +refs/tags/v* +refs/heads/main
