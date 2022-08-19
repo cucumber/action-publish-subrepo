@@ -26,8 +26,8 @@ git config --global user.email "gitbot@github.com"
 git config --global user.name "$GITHUB_ACTOR"
 git pull ../ split
 
-subrepo_url="https://$token@github.com/$target_repo.git"
-if ! curl --fail --silent "$subrepo_url" > /dev/null; then
+subrepo_url="https://$token@github.com/$target_repo"
+if ! curl --fail "$subrepo_url"; then
 	# TODO: consider using --template here to have a template for read-only subrepos
 	# TODO: set description
 	export GH_TOKEN="$token"
