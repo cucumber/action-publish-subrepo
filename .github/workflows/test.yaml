@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: remove existing main branch from target subrepo
         run: |
-          git push https://github.com/cucumber/action-publish-subrepo-test-monorepo-a-subfolder :refs/heads/main 
+          git push https://${{ secrets.PUSH_TOKEN }}@github.com/cucumber/action-publish-subrepo-test-monorepo-a-subfolder :refs/heads/main 
       - name: update the 'a-subfolder' folder with something unique
         run: |
           echo ${{ github.run_number }} > a-subfolder/a-file
