@@ -13,15 +13,15 @@ then
 	exit 1
 fi
 
-# debug
-git tag --list
-git show-ref
-
 subrepo_name="$GITHUB_REPOSITORY-$working_directory"
 echo "Target subrepo: $subrepo_name"
 
-# Avoid warning from git
+# Avoid 'dubious ownership' warning from git
 git config --global --add safe.directory /github/workspace
+
+# debug
+git tag --list
+git show-ref
 
 # Create the subtree split branch in pwd directory
 git subtree split --prefix="$working_directory" -b split
