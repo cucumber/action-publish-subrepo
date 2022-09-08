@@ -12,3 +12,4 @@ jobs:
           workflow: Publish subrepo
           repo: cucumber/action-publish-subrepo-test-monorepo
           token: ${{ secrets.TOKEN }}
+          ref: refs/heads/main
