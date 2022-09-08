@@ -13,4 +13,4 @@ jobs:
           repo: cucumber/action-publish-subrepo-test-monorepo
           token: ${{ secrets.TOKEN }}
           ref: refs/heads/main
-          inputs: "{ \"version\": \"${{ github.action_ref }}\" }"
+          inputs: "{ \"branch\": \"${{ github.action_ref }}\" }"
