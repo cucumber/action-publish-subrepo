@@ -11,4 +11,10 @@ jobs:
         with:
           workflow: Publish subrepo
           repo: cucumber/action-publish-subrepo-test-monorepo
+<<<<<<< Updated upstream
           token: ${{ secrets.TOKEN }}
+=======
+          token: ${{ secrets.TOKEN }}
+          ref: refs/heads/main
+          inputs: { "version": "${{github.action_ref}}" }
+>>>>>>> Stashed changes

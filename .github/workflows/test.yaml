@@ -3,6 +3,12 @@ name: Publish subrepo/mirror
 # designed to be run in the https://github.com/cucumber/action-publish-subrepo-test-monorepo/ repo
 on:
   workflow_call:
+    inputs:
+      version:
+        description: "Git branch or sha of the version of the action to be tested"
+        default: "main"
+        required: false
+        type: string
     secrets:
       PUSH_TOKEN:
         required: true
@@ -25,7 +31,7 @@ jobs:
           git push origin
           git tag v${{ github.run_number }}
           git push --tags
-      - uses: cucumber/action-publish-subrepo@main
+      - uses: cucumber/action-publish-subrepo@${{ inputs.version }}
         with:
           working-directory: "a-subfolder"
           github-token: ${{ secrets.PUSH_TOKEN }}
