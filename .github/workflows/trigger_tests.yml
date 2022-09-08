@@ -13,4 +13,4 @@ jobs:
           repo: cucumber/action-publish-subrepo-test-monorepo
           token: ${{ secrets.TOKEN }}
           ref: refs/heads/main
-          inputs: ${{ toJSON({ version: github.action_ref }) }}
+          inputs: "{ \"version\": \"${{ github.action_ref }}\" }"
