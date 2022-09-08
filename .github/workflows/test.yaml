@@ -8,6 +8,13 @@ on:
         required: true
 
 jobs:
+  run-unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: ./test
+
   publish-to-existing-subrepo:
     name: Publish to an existing subrepo
     runs-on: ubuntu-latest

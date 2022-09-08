@@ -1,0 +1,96 @@
+#!/bin/bash
+
+set -e
+shellcheck ./publish-to-subrepo
+set +e
+
+src=$(realpath .)
+tests="$(realpath "$src"/tests)/*.sh"
+
+function run_test() {
+	test=$1
+	echo -n "${test##*/} "
+
+	# create main working directory
+	workdir=$(mktemp -d)
+
+	# create monorepo
+	monorepo_dir="$workdir/monorepo"
+	mkdir "$monorepo_dir"
+	pushd "$monorepo_dir" >/dev/null || exit
+	git init --quiet -b main
+	git config user.email "publish-subrepo-tests@example.com"
+	git config user.name "Publish Subrepo Tests"
+	popd >/dev/null
+
+	# create empty target subrepo
+	subrepo_dir="$workdir/subrepo"
+	mkdir "$subrepo_dir"
+	pushd "$subrepo_dir" >/dev/null || exit
+	git init --quiet -b main
+	git config receive.denyCurrentBranch ignore # allow us to push to a non-bare repo
+	popd >/dev/null
+
+	# run the test
+	echo -n "..."
+	pushd "$workdir" >/dev/null || exit
+	PATH=$src:$PATH \
+		SUBREPO="$subrepo_dir" \
+		bash "$test" >"$test.output.actual"
+	echo $? >"$test.exit-status.actual"
+	popd >/dev/null
+	echo -ne "\b\b\b   \b\b\b"
+
+	# check that the subrepo contains what we expect
+	pushd "$subrepo_dir" >/dev/null || exit
+	git reset --hard --quiet # sync local index with what's been pushed
+	git log --format="%s %d" \
+		>"$test.subrepo-git-log.actual"
+	popd >/dev/null
+
+	for type in subrepo-git-log exit-status; do
+		expected="$test.$type.expected"
+		actual="$test.$type.actual"
+		if [ -f "$expected" ]; then
+			if [[ $(diff "$expected" "$actual") ]]; then
+				if [ -z "$test_failed" ]; then
+					echo "🔴"
+				fi
+				echo
+				echo Actual $type output different to expected!
+				echo
+				realpath --relative-to="$src" "$expected"
+				realpath --relative-to="$src" "$actual"
+				echo
+				diff "$expected" "$actual"
+				test_failed="true"
+			fi
+		fi
+	done
+	if [ -n "$test_failed" ]; then
+		echo
+		echo "Working directory: $workdir"
+		echo
+		return 1
+	else
+		echo "✅"
+		return 0
+	fi
+
+}
+
+if [[ "$1" ]]; then
+	tests=$(realpath "$1")
+else
+	tests="$(realpath tests)/*.sh"
+fi
+total_tests=0
+total_failed=0
+for test in $tests; do
+	if [[ ! "$1" || $(realpath "$1") == "$test" ]]; then
+		((total_tests = total_tests + 1))
+		run_test "$test" || ((total_failed = total_failed + 1))
+	fi
+done
+echo "$total_tests tests, $total_failed failed"
+test "$total_failed" -eq "0"

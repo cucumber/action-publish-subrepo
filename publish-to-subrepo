@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+# read args
+monorepo_path=$(pwd)
+subtree_path=$1
+subrepo_url=$2
+
+# create subtree branch in monorepo
+echo pwd
+git subtree split --prefix="$subtree_path" -b subtree 2>/dev/null
+
+# create temporary local repo for subtree
+local_subrepo_path=$(mktemp -d)
+git init "$local_subrepo_path" -b main
+pushd "$local_subrepo_path"
+
+# pull the subtree branch in the monorepo into the subtree repo's main branch
+git pull "$monorepo_path" subtree:main --quiet
+
+# push our main branch to the subrepo
+git push "$subrepo_url" main --force --quiet
