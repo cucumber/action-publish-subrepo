@@ -44,7 +44,7 @@ else
 	git config user.name "test"
 	git config user.email "test@example.com"
 	git commit --allow-empty --message "test push"
-	git push "$subrepo_url" test-push:refs/test/push || (echo -e "Unable to push to remote repo $subrepo_url\nCheck your token's permissions." && exit 1)
+	git push "$subrepo_url" main:refs/test/push || (echo -e "Unable to push to remote repo $subrepo_url\nCheck your token's permissions." && exit 1)
 	git push "$subrepo_url" :refs/test/push
 	popd
 fi
