@@ -47,9 +47,16 @@ function run_test() {
 	git reset --hard --quiet # sync local index with what's been pushed
 	git log --format="%s %d" \
 		>"$test.subrepo-git-log.actual"
+	git log \
+		--reverse \
+		--patch \
+		--unified=0 \
+		--pretty=%n%x2A%x2A%n%s%n%n%b |
+		sed -e '/^index/d' \
+			>"$test.subrepo-git-commits.actual"
 	popd >/dev/null
 
-	for type in subrepo-git-log exit-status; do
+	for type in subrepo-git-commits subrepo-git-log exit-status; do
 		expected="$test.$type.expected"
 		actual="$test.$type.actual"
 		if [ -f "$expected" ]; then
