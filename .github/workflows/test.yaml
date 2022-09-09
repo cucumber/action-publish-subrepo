@@ -25,7 +25,7 @@ jobs:
           git push origin
           git tag v${{ github.run_number }}
           git push --tags
-      - uses: cucumber/action-publish-subrepo@$main
+      - uses: cucumber/action-publish-subrepo@main
         with:
           working-directory: "a-subfolder"
           github-token: ${{ secrets.PUSH_TOKEN }}
