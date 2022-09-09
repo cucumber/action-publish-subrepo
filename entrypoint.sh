@@ -41,7 +41,9 @@ else
 	# pull is OK, what about push?
 	pushd "$(mktemp -d)" || exit
 	git init -b main
-	git commit --allow-empty --message "test push"
+	GIT_AUTHOR_NAME=test \
+		GIT_AUTHOR_EMAIL=test@example.com \
+		git commit --allow-empty --message "test push"
 	git push "$subrepo_url" test-push:refs/test/push || (echo -e "Unable to push to remote repo $subrepo_url\nCheck your token's permissions." && exit 1)
 	git push "$subrepo_url" :refs/test/push
 	popd
