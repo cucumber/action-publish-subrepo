@@ -13,6 +13,7 @@ RUN apk add git \
     bash
 
 ADD entrypoint.sh ./
+ADD publish-to-subrepo ./
 
 RUN chmod 777 "./entrypoint.sh"
 
