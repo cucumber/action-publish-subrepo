@@ -1,4 +1,4 @@
-FROM alpine
+FROM python:3.8-alpine
 
 USER root
 
@@ -6,13 +6,14 @@ WORKDIR /app
 
 RUN apk add git \
     openssh \
-    git-subtree \
-    git-lfs \
     github-cli \
     curl \
     bash
 
+RUN pip3 install git-filter-repo
+
 ADD entrypoint.sh ./
+ADD publish-to-subrepo ./
 
 RUN chmod 777 "./entrypoint.sh"
 

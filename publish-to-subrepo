@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+
+# read args
+monorepo_path=$(pwd)
+subtree_path=$1
+subrepo_url=$2
+
+# create temporary local repo for subtree
+local_subrepo_path=$(mktemp -d)
+git clone "$monorepo_path" "$local_subrepo_path" --quiet
+
+# filter the cloned repo
+pushd "$local_subrepo_path"
+git filter-repo --path "$subtree_path" --quiet
+
+# push our main branch to the subrepo
+git push "$subrepo_url" main --force --quiet
+git push "$subrepo_url" --tags --force --quiet
+popd
