@@ -40,10 +40,10 @@ else
 	git ls-remote "$subrepo_url"
 	# pull is OK, what about push?
 	pushd "$(mktemp -d)" || exit
+	git config user.name "test"
+	git config user.email "test@example.com"
 	git init -b main
-	GIT_COMMITTER_NAME=test \
-		GIT_COMMITTER_EMAIL=test@example.com \
-		git commit --allow-empty --message "test push"
+	git commit --allow-empty --message "test push"
 	git push "$subrepo_url" test-push:refs/test/push || (echo -e "Unable to push to remote repo $subrepo_url\nCheck your token's permissions." && exit 1)
 	git push "$subrepo_url" :refs/test/push
 	popd
