@@ -1,7 +1,12 @@
-name: Trigger tests
+name: Trigger acceptance tests
 
 on:
   push:
+    # Sadly it doesn't seem to be possible to run these acceptance tests
+    # on pull request branches. GitHub actions won't seem to let us
+    # parameterise the version of the action we use (i.e. cucumber/action-publish-subrepo@some-version)
+    # such that we could run the version from the PR branch. Oh well.
+    branches: [ main ]
 
 jobs:
   test:
