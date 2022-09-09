@@ -6,22 +6,15 @@ monorepo_path=$(pwd)
 subtree_path=$1
 subrepo_url=$2
 
-# create subtree branch in monorepo
-tag="$(git tag --points-at main)"
-git subtree split --prefix="$subtree_path" -b subtree 2>/dev/null
-
 # create temporary local repo for subtree
 local_subrepo_path=$(mktemp -d)
-git init "$local_subrepo_path" -b main
+git clone "$monorepo_path" "$local_subrepo_path" --quiet
+
+# filter the cloned repo
 pushd "$local_subrepo_path"
-
-# pull the subtree branch in the monorepo into the subtree repo's main branch
-git pull "$monorepo_path" subtree:main --quiet
-
-# tag the commit on main if needed
-if [ -n "$tag" ]; then
-	git tag "$tag" main
-fi
+git filter-repo --path "$subtree_path" --quiet
 
 # push our main branch to the subrepo
-git push "$subrepo_url" main "$tag" --force --quiet
+git push "$subrepo_url" main --force --quiet
+git push "$subrepo_url" --tags --force --quiet
+popd

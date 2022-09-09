@@ -6,8 +6,7 @@ WORKDIR /app
 
 RUN apk add git \
     openssh \
-    git-subtree \
-    git-lfs \
+    git-filter-repo \
     github-cli \
     curl \
     bash
