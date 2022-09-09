@@ -36,6 +36,7 @@ function run_test() {
 	pushd "$workdir" >/dev/null || exit
 	PATH=$src:$PATH \
 		SUBREPO="$subrepo_dir" \
+		GIT_CONFIG_GLOBAL=/dev/null \
 		bash "$test" >"$test.output.actual"
 	echo $? >"$test.exit-status.actual"
 	popd >/dev/null
