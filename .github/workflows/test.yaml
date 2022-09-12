@@ -27,6 +27,8 @@ jobs:
           git push origin
           git tag v${{ github.run_number }}
           git push --tags
+      - name: Garbage collect so that git-filter-repo doesn't complain
+        run: git gc
       - uses: cucumber/action-publish-subrepo@main
         with:
           working-directory: "a-subfolder"
