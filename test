@@ -37,7 +37,9 @@ function run_test() {
 	PATH=$src:$PATH \
 		SUBREPO="$subrepo_dir" \
 		GIT_CONFIG_GLOBAL=/dev/null \
-		bash "$test" >"$test.output.actual"
+		bash "$test" 3>"$test.output.actual" \
+		1> >(tee "$test.stdout.actual" >&3) \
+		2> >(tee "$test.stderr.actual" >&3)
 	echo $? >"$test.exit-status.actual"
 	popd >/dev/null
 	echo -ne "\b\b\b   \b\b\b"
@@ -45,15 +47,19 @@ function run_test() {
 	# check that the subrepo contains what we expect
 	pushd "$subrepo_dir" >/dev/null || exit
 	git reset --hard --quiet # sync local index with what's been pushed
-	git log --format="%s %d" \
-		>"$test.subrepo-git-log.actual"
-	git log \
-		--reverse \
-		--patch \
-		--unified=0 \
-		--pretty=%n%x2A%x2A%n%s%n%n%b |
-		sed -e '/^index/d' \
-			>"$test.subrepo-git-commits.actual"
+	if [[ ! $(git log 2>&1) =~ "fatal" ]]; then
+		git log --format="%s %d" \
+			>"$test.subrepo-git-log.actual"
+
+		git log \
+			--reverse \
+			--patch \
+			--unified=0 \
+			--pretty=%n%x2A%x2A%n%s%n%n%b |
+			sed -e '/^index/d' \
+				>"$test.subrepo-git-commits.actual"
+	fi
+
 	popd >/dev/null
 
 	for type in subrepo-git-commits subrepo-git-log exit-status; do
