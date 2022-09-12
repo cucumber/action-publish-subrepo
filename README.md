@@ -1,6 +1,7 @@
 [![Test](https://github.com/cucumber/action-publish-cpan/actions/workflows/test.yaml/badge.svg)](https://github.com/cucumber/action-publish-cpan/actions/workflows/test.yaml)
 
-# action-publish-subrepo
+# Publish Subrepo
+
 GitHub Action to publish a subdirectory of a repo to a read-only mirror.
 
 No matter what branch the action runs on, the `main` branch will be published to the mirror repo. Tags will be pushed too.
@@ -14,6 +15,16 @@ e.g.
     => https://github.com/cucumber/messages-go
 
 If the mirror repo does not already exist, it will be created.
+
+## No shallow clones!
+
+The script cannot work without a full-depth clone of the repo. To do this using the `actions/checkout` github action you need:
+
+```
+- uses: actions/checkout@v2
+  with:
+    fetch-depth: '0'
+```
 
 ## Inputs
 
@@ -38,6 +49,8 @@ jobs:
     environment: Release
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
       - uses: cucumber/action-publish-subrepo@v1.0.0
         with:
           working-directory: "php"
