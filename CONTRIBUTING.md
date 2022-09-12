@@ -1,4 +1,18 @@
-The way this GitHub action is tested is a little mind-bending, so maybe make sure you're sitting comfortably, then we'll begin.
+## Unit tests
+
+The core work of this action is done by the `publish-to-subrepo` script. That script is tested by a bunch of shell scripts in the `tests` folder. You can run them all like this:
+
+		./test
+
+Or you can run an individual one like this:
+
+		./test tests/copy-a-single-commit.sh
+
+If you add new behaviour, you can test-drive it by adding another test script in this folder, together with some `.expected` files to specify your expecations for the shell output, exit status, git log or git commits found in the target subrepo. See the existing tests for examples.
+
+## Acceptance tests
+
+Running acceptance tests for this action is a little mind-bending, so maybe make sure you're sitting comfortably, then we'll begin.
 
 Because the job of this action is to publish stuff from one repo to another, we need two github repos to test it. We use these:
 
