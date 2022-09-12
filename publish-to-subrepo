@@ -6,6 +6,11 @@ monorepo_path=$(pwd)
 subtree_path=$1
 subrepo_url=$2
 
+if [[ $(git rev-parse --is-shallow-repository) == 'true' ]]; then
+	echo >&2 "This is a shallow clone! Need full depth."
+	exit 1
+fi
+
 # create temporary local repo for subtree
 local_subrepo_path=$(mktemp -d)
 git clone "$monorepo_path" "$local_subrepo_path" --quiet
