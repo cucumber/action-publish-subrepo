@@ -17,6 +17,8 @@ git clone "$monorepo_path" "$local_subrepo_path" --quiet
 
 # filter the cloned repo
 pushd "$local_subrepo_path"
+echo
+echo "Filtering repo to include only $subtree_path"
 git filter-repo --path "$subtree_path" --path-rename "$subtree_path/:" --quiet
 
 # debug
