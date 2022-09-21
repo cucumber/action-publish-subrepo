@@ -19,6 +19,9 @@ git clone "$monorepo_path" "$local_subrepo_path" --quiet
 pushd "$local_subrepo_path"
 git filter-repo --path "$subtree_path" --path-rename "$subtree_path/:" --quiet
 
+# debug
+git show-ref
+
 # push our main branch to the subrepo
 git push "$subrepo_url" main --force --quiet
 git push "$subrepo_url" --tags --force --quiet
