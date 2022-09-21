@@ -10,6 +10,7 @@ RUN apk add git \
     curl \
     bash
 
+ENV PIP_ROOT_USER_ACTION=ignore
 RUN pip3 install git-filter-repo
 
 ADD entrypoint.sh ./
