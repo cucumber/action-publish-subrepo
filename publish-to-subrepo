@@ -20,9 +20,17 @@ pushd "$local_subrepo_path"
 git filter-repo --path "$subtree_path" --path-rename "$subtree_path/:" --quiet
 
 # debug
+echo
+echo "All local refs:"
 git show-ref
 
 # push our main branch to the subrepo
+echo
+echo "Force-pushing $(git show-ref HEAD) to $subrepo_url main branch"
 git push "$subrepo_url" HEAD:refs/heads/main --force --quiet
+
+echo
+echo "Force-pushing tags to $subrepo_url"
 git push "$subrepo_url" --tags --force --quiet
+
 popd
