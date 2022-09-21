@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Fixed
+- Make sure we can push if we're on a release branch
 
 ## [v1.0.0] - 2022-09-12
 ### Added
