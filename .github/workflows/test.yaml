@@ -12,7 +12,7 @@ jobs:
     name: Publish to an existing subrepo
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
         with: 
           fetch-depth: '0'
       - name: update the 'a-subfolder' folder with something unique
@@ -58,7 +58,7 @@ jobs:
     name: Attempt to publish to a repo that doesn't exist yet
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
       - name: delete subrepo if it exists
         run: |
           if [[ $(gh repo list cucumber | grep cucumber/action-publish-subrepo-test-monorepo-another-subfolder) ]]; then
