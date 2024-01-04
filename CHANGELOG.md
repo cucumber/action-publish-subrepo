@@ -10,6 +10,6 @@
 ### Added
 - Basic support for publishing subtree to subrepo using `git-filter-repo`
 
-[Unreleased]: https://github.com/cucumber/action-publish-subrepo/compare/v1.0.0...main
-[1.1.0]: https://github.com/cucumber/action-publish-subrepo/compare/v1.0.0...main
+[Unreleased]: https://github.com/cucumber/action-publish-subrepo/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/cucumber/action-publish-subrepo/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/cucumber/action-publish-subrepo/compare/v0.0.0...v1.0.0
