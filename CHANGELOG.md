@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Fixed
+- Add workspace/.git to safe directories
 
 ## [1.1.0] - 2022-09-21
 ### Fixed
