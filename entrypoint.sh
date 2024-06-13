@@ -17,6 +17,7 @@ echo "Target subrepo: $subrepo_name"
 
 # Avoid 'dubious ownership' warning from git
 git config --global --add safe.directory /github/workspace
+git config --global --add safe.directory /github/workspace/.git
 
 # debug
 git tag --list
