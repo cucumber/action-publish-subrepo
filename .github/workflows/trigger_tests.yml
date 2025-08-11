@@ -12,7 +12,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: aurelien-baudet/workflow-dispatch@v2
+      - uses: aurelien-baudet/workflow-dispatch@v4
         with:
           workflow: Publish subrepo
           repo: cucumber/action-publish-subrepo-test-monorepo
