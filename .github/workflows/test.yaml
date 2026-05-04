@@ -30,7 +30,7 @@ jobs:
           git push --tags
       - name: Garbage collect so that git-filter-repo doesn't complain
         run: git gc
-      - uses: cucumber/action-publish-subrepo@main
+      - uses: cucumber/action-publish-subrepo@581023e59e65d4b9fb5908ab8571efa9c1de51da # main
         with:
           working-directory: "a-subfolder"
           github-token: ${{ secrets.PUSH_TOKEN }}
@@ -77,7 +77,7 @@ jobs:
           git config user.email "gitbot@github.com"
           git config user.name "$GITHUB_ACTOR"
           git commit --message "Add another-subfolder"
-      - uses: cucumber/action-publish-subrepo@main
+      - uses: cucumber/action-publish-subrepo@581023e59e65d4b9fb5908ab8571efa9c1de51da # main
         id: run-action
         continue-on-error: true
         with:
