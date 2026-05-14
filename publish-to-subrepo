@@ -32,6 +32,6 @@ pushd "$local_subrepo_path"
   git push "$subrepo_url" HEAD:refs/heads/main --force --quiet
 
   echo
-  echo "Force-pushing tags to $subrepo_url"
-  git push "$subrepo_url" --tags --force --quiet
+  echo "Force-pushing tags matching v* to $subrepo_url"
+  git push "$subrepo_url" tag v* --force --quiet
 popd

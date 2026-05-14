@@ -1,8 +1,11 @@
 # Changelog
 
 ## [Unreleased]
+### Fixed
+- Only push tags matching `v*`.
+
 ### Removed
-- Removed `create-subrepo-if-missing` option
+- Removed `create-subrepo-if-missing` option.
 
 ## [1.1.1] - 2024-06-13
 ### Fixed
