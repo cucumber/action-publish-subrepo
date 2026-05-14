@@ -14,8 +14,6 @@ e.g.
     github.repositoryUrl: "https://github.com/cucumber/messages"
     => https://github.com/cucumber/messages-go
 
-If the mirror repo does not already exist, it will be created.
-
 ## No shallow clones!
 
 The script cannot work without a full-depth clone of the repo. To do this using the `actions/checkout` github action you need:
@@ -29,30 +27,38 @@ The script cannot work without a full-depth clone of the repo. To do this using 
 ## Inputs
 
 * `working-directory` - subfolder path within your repo that you want to mirror
-* `github-token` - a [PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) with sufficient privileges to create and push to the subrepo
-* `create-subrepo-if-missing` (optional, default: true) - whether or not to create the subrepo if it doesn't exist yet
+* `github-token` - a [PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) with sufficient privileges to push to the subrepo.
 
 ## Example
 
 ```yaml
-name: Publish `php` folder to subrepo
+name: Release PHP
+
+permissions: {}
 
 on:
   push:
     branches:
-      - "release/*"
+      - release/*
 
 jobs:
-  publish-ui:
-    name: Publish php folder to subrepo
+  publish-php-subrepo:
+    name: Publish to cucumber/gherkin-php subrepo
     runs-on: ubuntu-latest
     environment: Release
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6.0.2
         with:
+          persist-credentials: false
           fetch-depth: '0'
-      - uses: cucumber/action-publish-subrepo@v1.0.0
+      - uses: cucumber/action-publish-subrepo@v1.1.1
         with:
-          working-directory: "php"
-          github-token: ${{ secrets.PUSH_TOKEN }}
+          working-directory: php
+          github-token: ${{ secrets.CUKEBOT_GITHUB_TOKEN }}
 ```
+
+## Testing
+
+Unfortunately manually

@@ -17,22 +17,21 @@ git clone "$monorepo_path" "$local_subrepo_path" --quiet
 
 # filter the cloned repo
 pushd "$local_subrepo_path"
-echo
-echo "Filtering repo to include only $subtree_path"
-git filter-repo --path "$subtree_path" --path-rename "$subtree_path/:" --quiet
+  echo
+  echo "Filtering repo to include only $subtree_path"
+  git filter-repo --path "$subtree_path" --path-rename "$subtree_path/:" --quiet
 
-# debug
-echo
-echo "All local refs:"
-git show-ref
+  # debug
+  echo
+  echo "All local refs:"
+  git show-ref
 
-# push our main branch to the subrepo
-echo
-echo "Force-pushing $(git rev-parse HEAD) to $subrepo_url main branch"
-git push "$subrepo_url" HEAD:refs/heads/main --force --quiet
+  # push our main branch to the subrepo
+  echo
+  echo "Force-pushing $(git rev-parse HEAD) to $subrepo_url main branch"
+  git push "$subrepo_url" HEAD:refs/heads/main --force --quiet
 
-echo
-echo "Force-pushing tags to $subrepo_url"
-git push "$subrepo_url" --tags --force --quiet
-
+  echo
+  echo "Force-pushing tags to $subrepo_url"
+  git push "$subrepo_url" --tags --force --quiet
 popd

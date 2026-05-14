@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Removed
+- Removed `create-subrepo-if-missing` option
 
 ## [1.1.1] - 2024-06-13
 ### Fixed
