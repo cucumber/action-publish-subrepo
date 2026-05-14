@@ -10,7 +10,8 @@ mkdir php
 echo "# PHP project" >php/README.md
 git add .
 git commit --message "Add php"
-git tag "php-v1"
+git tag "v1"
+git tag "go/v1"
 
 # run the tool
 publish-to-subrepo php "$SUBREPO"
