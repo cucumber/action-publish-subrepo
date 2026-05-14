@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [2.0.0] - 2026-05-14
 ### Fixed
 - Only push tags matching `v*`.
 
@@ -19,7 +21,8 @@
 ### Added
 - Basic support for publishing subtree to subrepo using `git-filter-repo`
 
-[Unreleased]: https://github.com/cucumber/action-publish-subrepo/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/cucumber/action-publish-subrepo/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/cucumber/action-publish-subrepo/compare/v1.1.1...v2.0.0
 [1.1.1]: https://github.com/cucumber/action-publish-subrepo/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/cucumber/action-publish-subrepo/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/cucumber/action-publish-subrepo/compare/v0.0.0...v1.0.0
